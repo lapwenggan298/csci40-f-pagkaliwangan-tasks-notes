@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+	{% block content %}
+
+	<a href = "/tasks/list">Home</a>
+
+	<h1> Task Detail</h1>
+
+	<p> Task: {{ task.name }} </p>
+	<p> Due on {{ task.due_date}} </p>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %} <!-- No need to put all forms because of form.as_p, unless you wish to use/put more(?) -->
+        {{ form.as_p }} <!--All input fields would be here-->
+        <button type = "submit">Login</button>
+    </form>
+<!-- Reset Password-->
+    <a href = "{% url 'password_reset' %}">Forgot Password?</a>
+{% endblock %}

@@ -1,0 +1,22 @@
+<!--BASE NEEDS BLOCK CONTENT AND ENDBLOCK -->
+<html lang = 'en'>
+	<head>
+		<title>Tasks App</title>
+	</head>
+	<body>
+		{% if request.user.is_authenticated %}
+			Hello, {{ request.user }}
+			<form method="POST" action=" {% url 'logout' %} "> <!--Which url it will send request to, default/empty is the same url/page-->
+				{% csrf_token %}
+				<button type = "submit">Logout</button>
+			</form>
+		{% else %}
+			<a href = "{% url 'login' %}">Login</a>
+		{% endif %}
+		
+		{% block content %}
+
+		{% endblock %}
+	</body>
+</html>
+
