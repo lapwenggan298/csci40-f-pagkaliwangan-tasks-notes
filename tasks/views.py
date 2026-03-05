@@ -15,6 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 #5th of March
 from .models import TaskGroup
 from .forms import TaskForm
+from django.views.generic.edit import CreateView, UpdateView
 
 #tasks = [ "Task 1", "Task 2", "Task 3", "Task 4"]
 
@@ -67,20 +68,30 @@ class TaskListView(ListView): #The parameter inside the () is the class  or modu
         return context
 
     def post(self, request, *args, **kwargs): #this function will handle the POST
-        t = Task()
-        t.name = request.POST.get('task_name')
-        t.due_date = request.POST.get('due_date')
-        t.taskgroup = TaskGroup.objects.get(
-            pk=request.POST.get('taskgroup')
-            )
-        t.save()
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            #t = Task()
+            #t.name = request.POST.get('task_name')
+            #t.due_date = request.POST.get('due_date')
+            #t.taskgroup = TaskGroup.objects.get(
+            #    pk=request.POST.get('taskgroup')
+            #    )
+            #t.save()
 
         return self.get(request, *args, **kwargs)
 
 
-class TaskDetailView(LoginRequiredMixin, DetailView):
+class TaskDetailView(LoginRequiredMixin, UpdateView):
     model = Task
     template_name = "task_detail.html"
+    form_class = TaskForm
+
+
+class TaskCreateView(CreateView):
+    model = Task
+    template_name = "task_detail.html"
+    form_class = TaskForm
 
 # class TaskListView(TemplateView):
 #     template_name = 'task_list.html'
