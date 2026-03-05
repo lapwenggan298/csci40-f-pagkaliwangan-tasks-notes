@@ -12,6 +12,10 @@ from django.views.generic.list import ListView
 #23rd of February
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+#5th of March
+from .models import TaskGroup
+from .forms import TaskForm
+
 #tasks = [ "Task 1", "Task 2", "Task 3", "Task 4"]
 
 def index(request):
@@ -19,7 +23,21 @@ def index(request):
 
 def task_list(request): #all the tasks/list of tasks
     tasks = Task.objects.all()
-    ctx = { "tasks" : tasks }
+    taskgroups = TaskGroup.objects.all()
+    ctx = {
+        "task_list" : tasks,
+        "taskgroups": taskgroups
+           }
+
+    if request.method == "POST":
+        t = Task()
+        t.name = request.POST.get('task_name')
+        t.due_date = request.POST.get('due_date')
+        t.taskgroup = t.TaskGroup.objects.get(
+            pk=request.POST.get('taskgroup')
+            )
+        t.save()
+
     return render(request, 'task_list.html', ctx)
 
     #if request.method == 'POST':
@@ -38,9 +56,27 @@ def task_detail(request, pk): #just the singular task
     ctx = { "tasks" : task }
     return render(request, 'task_list.html', ctx)
 
-class TaskListView(ListView): #The parameter inside the () is the class  or module it is inheriting from
+class TaskListView(ListView): #The parameter inside the () is the class  or module it is inheriting from. #ListView does not/cannot handle POST requests.
     model = Task
     template_name = 'task_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['taskgroups'] = TaskGroup.objects.all()
+        context['form'] = TaskForm
+        return context
+
+    def post(self, request, *args, **kwargs): #this function will handle the POST
+        t = Task()
+        t.name = request.POST.get('task_name')
+        t.due_date = request.POST.get('due_date')
+        t.taskgroup = TaskGroup.objects.get(
+            pk=request.POST.get('taskgroup')
+            )
+        t.save()
+
+        return self.get(request, *args, **kwargs)
+
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
