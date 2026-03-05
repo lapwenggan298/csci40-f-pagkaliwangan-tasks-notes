@@ -9,4 +9,10 @@
 	<p> Task: {{ task.name }} </p>
 	<p> Due on {{ task.due_date}} </p>
 
+	<form method="POST">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" name="submit" value ="Save Form">
+	</form>
+
 {% endblock %}
