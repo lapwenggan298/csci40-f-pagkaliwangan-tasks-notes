@@ -19,7 +19,11 @@ class Task(models.Model):
         on_delete=models.CASCADE, #when the group is removed, the task models inside it are also removed, if on_delete=models.NULL, only the task group is removed.
         related_name='tasks', #will be used when you want to get it/obtain from a TaskGroup.
         )
-    
+    #March 9, 2026
+    task_image = models.ImageField(
+	upload_to='images/',
+	null = True,
+    )
     #per-instance level methods if they are in classes
     def __str__(self): #dunder = double underscore, if you print out the thing as is, it will return its string value (?).
         return f"{self.name} due on {self.due_date}"

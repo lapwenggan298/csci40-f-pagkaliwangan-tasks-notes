@@ -8,8 +8,9 @@
 
 	<p> Task: {{ task.name }} </p>
 	<p> Due on {{ task.due_date}} </p>
+	<img src = "{{task.task_image.url}}">
 
-	<form method="POST">
+	<form method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		{{ form }}
 		<input type="submit" name="submit" value ="Save Form">

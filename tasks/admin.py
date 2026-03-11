@@ -20,7 +20,8 @@ class TaskAdmin(admin.ModelAdmin):
         ('Details', {
             'fields': [
                 ('name', 'taskgroup'), 'due_date', #if two things are inside, that means they will be in the same line, the separated ones will be on a new line
-            ]
+		'task_image',
+		]
         })
     ]
 

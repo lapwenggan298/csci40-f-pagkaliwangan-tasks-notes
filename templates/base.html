@@ -1,7 +1,9 @@
 <!--BASE NEEDS BLOCK CONTENT AND ENDBLOCK -->
+{% load static %}
 <html lang = 'en'>
 	<head>
 		<title>Tasks App</title>
+		<link href = "{% static 'main.css' %}" rel="stylesheet" type = "text/css">
 	</head>
 	<body>
 		{% if request.user.is_authenticated %}
